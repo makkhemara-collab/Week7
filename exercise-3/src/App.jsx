@@ -1,25 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 
 function App() {
-  /* You will need to use many state to keep the inut values and other needs */
+  // states for A, B, and result
+  const [a, setA] = useState("");
+  const [b, setB] = useState("");
+  const [result, setResult] = useState("");
+  const [error, setError] = useState(false);
 
-  /* You will need some function to handle the key pressed and button events */
+  // handle input for A
+  function onA(event) {
+    setA(event.target.value);
+  }
+
+  // handle input for B
+  function onB(event) {
+    setB(event.target.value);
+  }
+
+  // compute sum
+  function onCompute() {
+    const numA = parseFloat(a);
+    const numB = parseFloat(b);
+
+    if (isNaN(numA) || isNaN(numB)) {
+      setResult("Error: Invalid number");
+      setError(true);
+    } else {
+      setResult(numA + numB);
+      setError(false);
+    }
+  }
 
   return (
     <main>
       <h1>Calculator</h1>
 
       <label>A =</label>
-      <input onKeyUp={onA} />
+      <input onChange={onA} value={a} />
 
       <label>B =</label>
-      <input onKeyUp={onB} />
+      <input onChange={onB} value={b} />
 
       <label>A + B =</label>
-
-      {/* When Compute buton is clicked, this input display the sum of the 2 numbers, or the error message in RED */}
-      <input disabled />
-      <button>Compute</button>
+      <input className={error ? "error" : ""} value={result} disabled />
+      <button onClick={onCompute}>Compute</button>
     </main>
   );
 }
